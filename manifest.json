@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "离线划词",
+  "version": "0.7.0",
+  "description": "ECDICT 离线查词与 Chrome 本地英汉双向句子翻译。",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*",
+        "file:///*"
+      ],
+      "js": [
+        "preferences.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "unlimitedStorage",
+    "storage",
+    "activeTab",
+    "offscreen",
+    "alarms"
+  ],
+  "options_page": "options.html",
+  "action": {
+    "default_title": "离线划词快捷设置",
+    "default_popup": "popup.html"
+  },
+  "minimum_chrome_version": "138"
+}
