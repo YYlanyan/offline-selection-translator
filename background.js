@@ -30,8 +30,9 @@ chrome.runtime.onMessage.addListener((message, sender, respond) => {
   if (!['LOOKUP','TRANSLATE'].includes(message?.type)) return;
   if (typeof message.text !== 'string' || !message.text.trim() || message.text.length > 3000) { respond({ error: '请选择 1–3000 个字符的中文或英文。' }); return; }
   (async()=>{
-    const direction = /[\p{Script=Han}]/u.test(message.text) ? 'zh-en' : 'en-zh';
-    if (message.type === 'TRANSLATE' || direction === 'zh-en') return translate(message.text, direction);
+    const hasChinese = /[\p{Script=Han}]/u.test(message.text);
+    const direction = hasChinese && !/[A-Za-z]/.test(message.text) ? 'zh-en' : 'en-zh';
+    if (message.type === 'TRANSLATE' || hasChinese) return translate(message.text, direction);
     const words = message.text.trim().split(/\s+/);
     if (words.length > 5 || message.text.length > 120) return translate(message.text, direction);
     try {

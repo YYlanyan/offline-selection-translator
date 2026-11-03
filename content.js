@@ -97,7 +97,7 @@
       setup.onclick = () => chrome.runtime.sendMessage({type:'OPEN_SETTINGS'});
     }
     if (!result.translation && !result.busy && !result.needsSetup && text.length <= 3000) {
-      const retry = add('button', (/[\p{Script=Han}]/u.test(text) ? '翻译成英文' : '翻译成中文'), 'action');
+      const retry = add('button', (/[\p{Script=Han}]/u.test(text) && !/[A-Za-z]/.test(text) ? '翻译成英文' : '翻译成中文'), 'action');
       retry.onclick = () => query(text, 'TRANSLATE');
     }
     add('footer', result.translation ? 'Chrome 本地模型 · Esc 关闭' : 'ECDICT / Chrome 本地模型 · Esc 关闭');
